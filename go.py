@@ -146,6 +146,8 @@ class Board(object):
         """Create and initialize an empty board."""
         self.groups = []
         self.next = BLACK
+        self.gameover = False
+        self.one_pass = False
 
     def search(self, point=None, points=[]):
         """Search the board for a stone.
@@ -176,3 +178,10 @@ class Board(object):
         else:
             self.next = BLACK
             return WHITE
+
+    def pass_go(self):
+        if self.one_pass:
+            self.gameover = True
+        else:
+            self.one_pass = True
+            self.turn()

@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-"""Goban made with Python, pygame and go.py.
+"""Goban for B.U.G.
 
-This is a front-end for my go library 'go.py', handling drawing and
-pygame-related activities. Together they form a fully working goban.
-
+This is the main file for 
 """
 
 __author__ = "Aku Kotkavuo <aku@hibana.net>"
@@ -25,7 +23,7 @@ class Stone(go.Stone):
     def __init__(self, board, point, color):
         """Create, initialize and draw a stone."""
         super(Stone, self).__init__(board, point, color)
-        self.coords = (5 + self.point[0] * 40, 5 + self.point[1] * 40)
+        self.coords = Stone.points_to_coords(point[0], point[1])
         self.draw()
 
     def draw(self):
@@ -40,6 +38,18 @@ class Stone(go.Stone):
         screen.blit(background, blit_coords, area_rect)
         pygame.display.update()
         super(Stone, self).remove()
+
+    @staticmethod
+    def coords_to_points(x_coord, y_coord):
+        x = int(round(((x_coord - 5) / 40.0), 0))
+        y = int(round(((y_coord - 105) / 40.0), 0))
+        return x, y
+
+    @staticmethod
+    def points_to_coords(x_point, y_point):
+        x = 5 + x_point * 40
+        y = 105 + y_point * 40
+        return x, y
 
 
 class Board(go.Board):
@@ -93,20 +103,26 @@ class Board(go.Board):
 def main():
     while True:
         pygame.time.wait(250)
+        pygame.draw.circle(screen, board.next, (820, 90), 20, 0)
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     pygame.quit()
+                    exit()
+                if event.key == pygame.K_p:
+                    board.pass_go()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1 and board.outline.collidepoint(event.pos):
-                    x = int(round(((event.pos[0] - 5) / 40.0), 0))
-                    y = int(round(((event.pos[1] - 5) / 40.0), 0))
+                    x, y = Stone.coords_to_points(event.pos[0], event.pos[1])
                     stone = board.search(point=(x, y))
                     if stone:
                         stone.remove()
                     else:
                         added_stone = Stone(board, (x, y), board.turn())
                     board.update_liberties(added_stone)
+        pygame.display.update()
 
 
 if __name__ == "__main__":
@@ -114,7 +130,10 @@ if __name__ == "__main__":
     pygame.display.set_caption("Goban")
     screen = pygame.display.set_mode(BOARD_SIZE, 0, 32)
     background = pygame.Surface(BOARD_SIZE)
-    #  pygame.Surface.fill(background, (0, 0, 0))
     background.fill((128, 128, 128))
     board = Board()
+    p_to_pass = pygame.font.SysFont("dejavu", 18)
+    p_to_pass_img = p_to_pass.render("Press P to pass", True, (0, 0, 255))
+    screen.blit(p_to_pass_img, (800, 150))
+    pygame.display.update()
     main()
