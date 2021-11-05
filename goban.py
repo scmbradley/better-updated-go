@@ -3,11 +3,11 @@
 
 """Goban for B.U.G.
 
-This is the main file for 
+This is the main file for playing a game of Better Updated Go
 """
 
-__author__ = "Aku Kotkavuo <aku@hibana.net>"
-__version__ = "0.1"
+__author__ = "Seamus Bradley <github@scmb.xyz>"
+__version__ = "0.1.0"
 
 import pygame
 import go

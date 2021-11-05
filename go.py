@@ -3,15 +3,12 @@
 
 """Go library made with pure Python.
 
-This library offers a variety of Go related classes and methods.
-
-There is a companion module called 'goban' which serves as a front-end
-for this library, forming a fully working go board together.
+Base game of go.
 
 """
 
-__author__ = "Aku Kotkavuo <aku@hibana.net>"
-__version__ = "0.1"
+__author__ = "Seamus Bradley <github@scmb.xyz>"
+__version__ = "0.1.0"
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
