@@ -2,7 +2,7 @@
 
 Parts of the base go code is based on [eagleflo's go code](https://github.com/eagleflo/goban).
 That code is Copyright (c) 2008 Aku Kotkavuo. All rights reserved.
-That code is licensed under an MIT license:
+That code is licensed under a BSD 2-Clause "Simplified" License:
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:

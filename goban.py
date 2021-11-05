@@ -15,8 +15,8 @@ import pygame
 import go
 from sys import exit
 
-BACKGROUND = 'images/ramin.jpg'
-BOARD_SIZE = (820, 820)
+
+BOARD_SIZE = (920, 920)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
@@ -46,7 +46,7 @@ class Board(go.Board):
     def __init__(self):
         """Create, initialize and draw an empty board."""
         super(Board, self).__init__()
-        self.outline = pygame.Rect(45, 45, 720, 720)
+        self.outline = pygame.Rect(45, 145, 720, 720)
         self.draw()
 
     def draw(self):
@@ -65,11 +65,11 @@ class Board(go.Board):
         self.outline.inflate_ip(20, 20)
         for i in range(18):
             for j in range(18):
-                rect = pygame.Rect(45 + (40 * i), 45 + (40 * j), 40, 40)
+                rect = pygame.Rect(45 + (40 * i), 145 + (40 * j), 40, 40)
                 pygame.draw.rect(background, BLACK, rect, 1)
         for i in range(3):
             for j in range(3):
-                coords = (165 + (240 * i), 165 + (240 * j))
+                coords = (165 + (240 * i), 265 + (240 * j))
                 pygame.draw.circle(background, BLACK, coords, 5, 0)
         screen.blit(background, (0, 0))
         pygame.display.update()
@@ -94,8 +94,9 @@ def main():
     while True:
         pygame.time.wait(250)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1 and board.outline.collidepoint(event.pos):
                     x = int(round(((event.pos[0] - 5) / 40.0), 0))
@@ -108,10 +109,12 @@ def main():
                     board.update_liberties(added_stone)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pygame.init()
-    pygame.display.set_caption('Goban')
+    pygame.display.set_caption("Goban")
     screen = pygame.display.set_mode(BOARD_SIZE, 0, 32)
-    background = pygame.image.load(BACKGROUND).convert()
+    background = pygame.Surface(BOARD_SIZE)
+    #  pygame.Surface.fill(background, (0, 0, 0))
+    background.fill((128, 128, 128))
     board = Board()
     main()
