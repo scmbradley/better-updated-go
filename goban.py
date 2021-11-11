@@ -99,10 +99,18 @@ class Board(go.Board):
         if added_stone:
             added_stone.group.update_liberties()
 
+    def play_stone(self, pos_point, randomize=True):
+        stone = self.search(point=pos_point)
+        if stone:
+            stone.remove()
+        else:
+            added_stone = Stone(self, pos_point, self.turn())
+        board.update_liberties(added_stone)
+
 
 def main():
     while True:
-        pygame.time.wait(250)
+        pygame.time.wait(150)
         pygame.draw.circle(screen, board.next, (820, 90), 20, 0)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -116,12 +124,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1 and board.outline.collidepoint(event.pos):
                     x, y = Stone.coords_to_points(event.pos[0], event.pos[1])
-                    stone = board.search(point=(x, y))
-                    if stone:
-                        stone.remove()
-                    else:
-                        added_stone = Stone(board, (x, y), board.turn())
-                    board.update_liberties(added_stone)
+                    board.play_stone((x, y))
         pygame.display.update()
 
 
