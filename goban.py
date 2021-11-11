@@ -13,6 +13,8 @@ import pygame
 import go
 from sys import exit
 
+from random import random
+
 
 BOARD_SIZE = (920, 920)
 WHITE = (255, 255, 255)
@@ -99,13 +101,31 @@ class Board(go.Board):
         if added_stone:
             added_stone.group.update_liberties()
 
-    def play_stone(self, pos_point, randomize=True):
+    def _play_stone(self, pos_point):
+        """
+        Play a stone at position.
+
+        This version of the function does not add randomness
+        """
         stone = self.search(point=pos_point)
         if stone:
             stone.remove()
         else:
             added_stone = Stone(self, pos_point, self.turn())
         board.update_liberties(added_stone)
+
+    def _random_play_stone(self, pos_point):
+        """
+        Play a stone at a position, adding randomness.
+
+        Play a stone at +/- 1 of the position on each axis
+        """
+        pos_point_mod = [0, 0]
+        for a in [0, 1]:
+            if random() < 0.5:
+                pos_point_mod[a] += 1 if random() < 0.5 else -1
+
+        self._play_stone(pos_point)
 
 
 def main():
