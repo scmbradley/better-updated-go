@@ -3,6 +3,12 @@
 This changelog follows the conventions of [keep a changelog](https://keepachangelog.com/en/1.0.0/)
 and [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+ - Random placement of stones
+
 ## v0.1.1
 
 ### Added

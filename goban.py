@@ -102,7 +102,7 @@ class Board(go.Board):
             added_stone.group.update_liberties()
 
     def _add_noise_one_d(self, pos, max_pos):
-        if pos == 0:
+        if pos == 1:
             mod_low = 0
         else:
             mod_low = -1
