@@ -101,6 +101,18 @@ class Board(go.Board):
         if added_stone:
             added_stone.group.update_liberties()
 
+    def _add_noise_one_d(self, pos, max_pos):
+        if pos == 0:
+            mod_low = 0
+        else:
+            mod_low = -1
+
+        if pos == max_pos:
+            mod_high = 0
+        else:
+            mod_high = 1
+        return pos + (mod_high if random() < 0.5 else mod_low)
+
     def _play_stone(self, pos_point):
         """
         Play a stone at position.
@@ -109,10 +121,10 @@ class Board(go.Board):
         """
         stone = self.search(point=pos_point)
         if stone:
-            stone.remove()
+            pass
         else:
             added_stone = Stone(self, pos_point, self.turn())
-        board.update_liberties(added_stone)
+            board.update_liberties(added_stone)
 
     def _random_play_stone(self, pos_point):
         """
@@ -120,12 +132,12 @@ class Board(go.Board):
 
         Play a stone at +/- 1 of the position on each axis
         """
-        pos_point_mod = [0, 0]
-        for a in [0, 1]:
+        noisy_pos = list(pos_point)
+        for x in [0, 1]:
             if random() < 0.5:
-                pos_point_mod[a] += 1 if random() < 0.5 else -1
+                noisy_pos[x] = self._add_noise_one_d(noisy_pos[x], 19)
 
-        self._play_stone(pos_point)
+        self._play_stone(noisy_pos)
 
     def play_stone(self, pos_point):
         self._random_play_stone(pos_point)
