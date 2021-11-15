@@ -127,6 +127,9 @@ class Board(go.Board):
 
         self._play_stone(pos_point)
 
+    def play_stone(self, pos_point):
+        self._random_play_stone(pos_point)
+
 
 def main():
     while True:
