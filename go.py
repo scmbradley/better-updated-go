@@ -162,7 +162,7 @@ class Board(object):
         for group in self.groups:
             for stone in group.stones:
                 if stone.point == point and not points:
-                    return stone
+                    return [stone]
                 if stone.point in points:
                     stones.append(stone)
         return stones

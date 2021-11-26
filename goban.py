@@ -88,10 +88,6 @@ class Board(go.Board):
         screen.blit(background, (0, 0))
 
     #        pygame.display.update()
-    def stone_here(self, pos_point):
-        """Checks if there is a stone at the position"""
-        stone = self.search(point=pos_point)
-        return stone is not None
 
     def update_liberties(self, added_stone=None):
         """Updates the liberties of the entire board, group by group.
@@ -135,11 +131,14 @@ class Board(go.Board):
         but it does switch turns if you hit on an occupied square.
         """
         stone = self.search(point=pos_point)
-        if stone:
+        if len(stone) != 0:
+            print("Random tried to play on an occupied point")
             self.turn()
         else:
             added_stone = Stone(self, pos_point, self.turn())
             board.update_liberties(added_stone)
+            print(f"Random played at {pos_point}")
+            print(f"type _play stone: {type(pos_point)}")
 
     def _random_play_stone(self, pos_point):
         """
@@ -156,9 +155,12 @@ class Board(go.Board):
 
     def play_stone(self, pos_point):
         stone = self.search(point=pos_point)
-        if stone:
-            pass
+        if len(stone) != 0:
+            print("Attempting to play on an occupied square.")
         else:
+            print(f"Playing on {pos_point}")
+            print(len(stone))
+            print(f"type play_stone: {type(pos_point)}")
             self._random_play_stone(pos_point)
 
 
