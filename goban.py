@@ -19,6 +19,12 @@ from random import random
 BOARD_SIZE = (920, 920)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+
+FPS = 30
+fpsClock = pygame.time.Clock()
 
 
 class Stone(go.Stone):
@@ -31,14 +37,12 @@ class Stone(go.Stone):
     def draw(self):
         """Draw the stone as a circle."""
         pygame.draw.circle(screen, self.color, self.coords, 20, 0)
-        pygame.display.update()
 
     def remove(self):
         """Remove the stone from board."""
         blit_coords = (self.coords[0] - 20, self.coords[1] - 20)
         area_rect = pygame.Rect(blit_coords, (40, 40))
         screen.blit(background, blit_coords, area_rect)
-        pygame.display.update()
         super(Stone, self).remove()
 
     @staticmethod
@@ -73,8 +77,6 @@ class Board(go.Board):
 
         """
         pygame.draw.rect(background, BLACK, self.outline, 3)
-        # Outline is inflated here for future use as a collidebox for the mouse
-        self.outline.inflate_ip(20, 20)
         for i in range(18):
             for j in range(18):
                 rect = pygame.Rect(45 + (40 * i), 145 + (40 * j), 40, 40)
@@ -84,7 +86,12 @@ class Board(go.Board):
                 coords = (165 + (240 * i), 265 + (240 * j))
                 pygame.draw.circle(background, BLACK, coords, 5, 0)
         screen.blit(background, (0, 0))
-        pygame.display.update()
+
+    #        pygame.display.update()
+    def stone_here(self, pos_point):
+        """Checks if there is a stone at the position"""
+        stone = self.search(point=pos_point)
+        return stone is not None
 
     def update_liberties(self, added_stone=None):
         """Updates the liberties of the entire board, group by group.
@@ -100,6 +107,13 @@ class Board(go.Board):
             group.update_liberties()
         if added_stone:
             added_stone.group.update_liberties()
+
+    # def _flash_stone(self, pos_point, color):
+    #     for _ in range(3):
+    #         pygame.draw.circle(screen, color, pos_point, 15, 0)
+    #         fpsClock.tick(FPS)
+    #         # pygame.draw.circle(screen, (0, 0, 0, 0), pos_point, 15, 0)
+    #         # fpsClock.tick(FPS)
 
     def _add_noise_one_d(self, pos, max_pos):
         if pos == 1:
@@ -117,11 +131,12 @@ class Board(go.Board):
         """
         Play a stone at position.
 
-        This version of the function does not add randomness
+        This version of the function does not add randomness,
+        but it does switch turns if you hit on an occupied square.
         """
         stone = self.search(point=pos_point)
         if stone:
-            pass
+            self.turn()
         else:
             added_stone = Stone(self, pos_point, self.turn())
             board.update_liberties(added_stone)
@@ -140,12 +155,15 @@ class Board(go.Board):
         self._play_stone(noisy_pos)
 
     def play_stone(self, pos_point):
-        self._random_play_stone(pos_point)
+        stone = self.search(point=pos_point)
+        if stone:
+            pass
+        else:
+            self._random_play_stone(pos_point)
 
 
 def main():
     while True:
-        pygame.time.wait(150)
         pygame.draw.circle(screen, board.next, (820, 90), 20, 0)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -160,6 +178,7 @@ def main():
                 if event.button == 1 and board.outline.collidepoint(event.pos):
                     x, y = Stone.coords_to_points(event.pos[0], event.pos[1])
                     board.play_stone((x, y))
+        fpsClock.tick(FPS)
         pygame.display.update()
 
 
@@ -170,8 +189,8 @@ if __name__ == "__main__":
     background = pygame.Surface(BOARD_SIZE)
     background.fill((128, 128, 128))
     board = Board()
-    p_to_pass = pygame.font.SysFont("dejavu", 18)
-    p_to_pass_img = p_to_pass.render("Press P to pass", True, (0, 0, 255))
+    mid_size_text = pygame.font.SysFont("dejavu", 18)
+    p_to_pass_img = mid_size_text.render("Press P to pass", True, (0, 0, 255))
     screen.blit(p_to_pass_img, (800, 150))
     pygame.display.update()
     main()
