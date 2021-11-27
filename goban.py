@@ -132,13 +132,10 @@ class Board(go.Board):
         """
         stone = self.search(point=pos_point)
         if len(stone) != 0:
-            print("Random tried to play on an occupied point")
             self.turn()
         else:
             added_stone = Stone(self, pos_point, self.turn())
             board.update_liberties(added_stone)
-            print(f"Random played at {pos_point}")
-            print(f"type _play stone: {type(pos_point)}")
 
     def _random_play_stone(self, pos_point):
         """
@@ -156,11 +153,8 @@ class Board(go.Board):
     def play_stone(self, pos_point):
         stone = self.search(point=pos_point)
         if len(stone) != 0:
-            print("Attempting to play on an occupied square.")
+            pass
         else:
-            print(f"Playing on {pos_point}")
-            print(len(stone))
-            print(f"type play_stone: {type(pos_point)}")
             self._random_play_stone(pos_point)
 
 
