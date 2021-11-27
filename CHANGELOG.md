@@ -3,11 +3,12 @@
 This changelog follows the conventions of [keep a changelog](https://keepachangelog.com/en/1.0.0/)
 and [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
-## v0.1.1
+## Unreleased
 
 ### Added
 
- - Random placement of stones
+ - Implemented random placement of stones
+ - Corrected behaviour when placing a stone on an occupied point
 
 ## v0.1.1
 
