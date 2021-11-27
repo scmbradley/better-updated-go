@@ -7,7 +7,7 @@ This is the main file for playing a game of Better Updated Go
 """
 
 __author__ = "Seamus Bradley <github@scmb.xyz>"
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 import pygame
 import go

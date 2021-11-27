@@ -1,4 +1,4 @@
-# B.U.G.: Better, Updated Go. Version 0.1.1
+# B.U.G.: Better, Updated Go. Version 0.1.2
 
 This is an extremely dumb idea I have decided to implement as part of 
 [Github's 2021 Game Off](https://itch.io/jam/game-off-2021) event.

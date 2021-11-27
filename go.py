@@ -8,7 +8,7 @@ Base game of go.
 """
 
 __author__ = "Seamus Bradley <github@scmb.xyz>"
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
