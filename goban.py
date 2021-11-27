@@ -151,7 +151,7 @@ class Board(go.Board):
             if random() < 0.5:
                 noisy_pos[x] = self._add_noise_one_d(noisy_pos[x], 19)
 
-        self._play_stone(noisy_pos)
+        self._play_stone(tuple(noisy_pos))
 
     def play_stone(self, pos_point):
         stone = self.search(point=pos_point)
